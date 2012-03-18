@@ -55,7 +55,7 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"errors"
-	"github.com/garyburd/go-oauth"
+	"github.com/garyburd/go-oauth/oauth"
 	"io/ioutil"
 	"net"
 	"net/url"

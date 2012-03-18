@@ -1,19 +1,18 @@
-go-twitterstream is a [Go](http://golang.org/) package for working with the 
-[Twitter streaming API](http://dev.twitter.com/pages/streaming_api).
+# TwitterStream
 
-[Documentation](http://gopkgdoc.appspot.com/pkg/github.com/garyburd/go-twitterstream)
+TwitterStream is a [Go](http://golang.org/) client for the
+[Twitter streaming API](https://dev.twitter.com/docs/streaming-api).
 
-Installation:
+## Installation
 
-    goinstall github.com/garyburd/go-twitterstream
+Use the [go tool](http://weekly.golang.org/cmd/go/) to install TwitterStream:
 
+    go get github.com/garyburd/twitterstream
 
-Change on 1/1/2012:
+## Documentation
 
-It is now the application's responsibility to reconnect to Twitter on a dropped
-connection.  The package API was changed significantly to reflect this change
-in functionality.  The example in the package comment illustrates how to
-implement reconnect logic in the application.
+    * [Reference](http://gopkgdoc.appspot.com/pkg/github.com/garyburd/twitterstream)
 
-This change allows applications to implement backfill and other features on
-reconnect.
+## License
+
+TwitterStream is available under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
