@@ -11,7 +11,7 @@ Use the [go tool](http://weekly.golang.org/cmd/go/) to install TwitterStream:
 
 ## Documentation
 
-    * [Reference](http://gopkgdoc.appspot.com/pkg/github.com/garyburd/twitterstream)
+* [Reference](http://gopkgdoc.appspot.com/pkg/github.com/garyburd/twitterstream)
 
 ## License
 
