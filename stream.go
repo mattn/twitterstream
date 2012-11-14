@@ -132,11 +132,13 @@ func Open(oauthClient *oauth.Client, accessToken *oauth.Credentials, urlStr stri
 			}
 		} else {
 			ts.conn, err = tls.Dial("tcp", addr, nil)
+			if err == nil {
+				if err = ts.conn.(*tls.Conn).VerifyHostname(addr[:strings.LastIndex(addr, ":")]); err != nil {
+					return nil, err
+				}
+			}
 		}
 		if err != nil {
-			return nil, err
-		}
-		if err = ts.conn.(*tls.Conn).VerifyHostname(addr[:strings.LastIndex(addr, ":")]); err != nil {
 			return nil, err
 		}
 	}
