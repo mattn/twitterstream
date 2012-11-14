@@ -59,6 +59,7 @@ import (
 	"io/ioutil"
 	"net"
 	"net/url"
+	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -108,18 +109,35 @@ func Open(oauthClient *oauth.Client, accessToken *oauth.Credentials, urlStr stri
 		}
 	}
 
+	proxyURL, _ := url.Parse(os.Getenv("HTTP_PROXY"))
+
 	if u.Scheme == "http" {
-		ts.conn, err = net.Dial("tcp", addr)
+		if proxyURL != nil {
+			ts.conn, err = net.Dial("tcp", proxyURL.Host)
+		} else {
+			ts.conn, err = net.Dial("tcp", addr)
+		}
 		if err != nil {
 			return nil, err
 		}
 	} else {
-		ts.conn, err = tls.Dial("tcp", addr, nil)
+		if proxyURL != nil {
+			var proxyConn net.Conn
+			proxyConn, err = net.Dial("tcp", proxyURL.Host)
+			if err == nil {
+				ts.conn = tls.Client(proxyConn, nil)
+				proxyConn.Write([]byte("CONNECT " + addr + " HTTP/1.1\r\n\r\n"))
+				b := make([]byte, 1024)
+				proxyConn.Read(b)
+			}
+		} else {
+			ts.conn, err = tls.Dial("tcp", addr, nil)
+		}
 		if err != nil {
 			return nil, err
 		}
 		if err = ts.conn.(*tls.Conn).VerifyHostname(addr[:strings.LastIndex(addr, ":")]); err != nil {
-			return nil, ts.fatal(err)
+			return nil, err
 		}
 	}
 
